@@ -53,10 +53,22 @@ class LoginScreen extends StatelessWidget {
 class _LoginForm extends ConsumerWidget {
   const _LoginForm();
 
+  void showSnackbar(BuildContext context, String message){
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message))
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
     final loginForm = ref.watch(loginFormProvider);
+
+    ref.listen(authProvider,(_,next){
+      if(next.errorMessage == null || (next.errorMessage?.isEmpty ?? false)) return;
+      showSnackbar(context,next.errorMessage!);
+    });
 
     final textStyles = Theme.of(context).textTheme;
 

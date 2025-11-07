@@ -1,16 +1,40 @@
+import 'package:teslo_shop/config/config.dart';
+import  'package:teslo_shop/features/auth/infrastructure/infrastructure.dart';
 import 'package:teslo_shop/features/auth/domain/domain.dart';
+import 'package:dio/dio.dart';
+import 'package:teslo_shop/features/auth/infrastructure/mappers/user_mapper.dart';
 
 class AuthDatasourceImpl extends AuthDatasource{
 
+  final dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
   
-  Future <User> login(String mail, String password){
-    throw UnimplementedError();
+  @override
+  Future <User> login(String email, String password) async{
+    try{
+      final response = await dio.post('/auth/login', data:{
+        'email': email,
+        'password': password
+      });
+      final user = UserMapper.userJsonToEntity(response.data);
+      return user;
+    } on DioException catch(e){
+      if(e.response?.statusCode == 401) {
+        throw CustomError(e.response?.data['message'] ?? 'Las credenciales no son válidas');
+      }if(e.type == DioExceptionType.connectionTimeout){
+        throw CustomError('La solicitud no pudo procesarse. Tiempo de espera excedido');
+      }
+      throw Exception();
+    }catch(e){
+      throw Exception();
+    }
   }
 
+  @override
   Future <User> register(String mail, String password, String fullName){
     throw UnimplementedError();
   }
 
+  @override
   Future <User> checkStatus(String token){
     throw UnimplementedError();
   }
