@@ -65,7 +65,6 @@ class AuthNotifier extends Notifier<AuthState>{
   }
 
   Future<void> _setLoggedUser(User user) async{
-    //TODO: Guardar el token en el dispositivo
     await keyValueStorageService.setKeyValue('token', user.token);
     state = state.copyWith(
       user: user,

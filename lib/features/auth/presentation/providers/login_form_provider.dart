@@ -47,7 +47,7 @@ class LoginFormState{
 }
 
 class LoginFormNotifier extends Notifier<LoginFormState> {
-  Function(String, String)? loginUserCallback;
+  late final Function(String, String) loginUserCallback;
   
   @override
   LoginFormState build() {
@@ -72,11 +72,10 @@ class LoginFormNotifier extends Notifier<LoginFormState> {
   }
 
   void onSubmit() async{
-    if(loginUserCallback == null) throw Exception('submit not implemented');
     _touchEveryField();
     if(!state.isValid) return;
     state = state.copyWith( isPosting : true );
-    await loginUserCallback!(state.email.value, state.password.value);
+    await loginUserCallback(state.email.value, state.password.value);
     state = state.copyWith( isPosting : false );
   }
 

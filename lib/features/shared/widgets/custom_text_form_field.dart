@@ -8,8 +8,9 @@ class CustomTextFormField extends StatelessWidget {
   final String? errorMessage;
   final bool obscureText;
   final TextInputType? keyboardType;
-  final Function(String value)? onChanged;
+  final void Function(String value)? onChanged;
   final String? Function(String? value)? validator;
+  final void Function(String value)? submit;
 
   const CustomTextFormField({
     super.key, 
@@ -20,6 +21,7 @@ class CustomTextFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.onChanged, 
     this.validator, 
+    this.submit,
   });
 
   @override
@@ -53,6 +55,7 @@ class CustomTextFormField extends StatelessWidget {
         obscureText: obscureText,
         keyboardType: keyboardType,
         style: const TextStyle( fontSize: 20, color: Colors.black54 ),
+        onFieldSubmitted: submit,
         decoration: InputDecoration(
           floatingLabelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
           enabledBorder: border,
