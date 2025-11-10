@@ -13,11 +13,11 @@ class ProductMapper{
     sizes: List<String>.from( json['sizes'].map((size)=>size) ),
     gender: json['gender'],
     tags: List<String>.from( json['tags'].map((tag)=>tag) ),
-    images: json['images'].map(
-      (String image)=>image.startsWith('http') 
+    images: List<String>.from(json['images'].map(
+      (image)=>image.startsWith('http') 
         ? image //Images saved as url
         : '${Environment.apiUrl}/files/product/$image' //Image saved on api
-    ),
+    )),
     user: UserMapper.userJsonToEntity(json['user']),
   );
 }
