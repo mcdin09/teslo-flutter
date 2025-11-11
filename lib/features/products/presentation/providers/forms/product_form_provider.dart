@@ -46,6 +46,12 @@ class ProductFormNotifier extends Notifier<ProductFormState>{
     );
   }
 
+  void updateProductImage(String path){
+    state = state.copyWith(
+      images: [...state.images, path]
+    );
+  }
+
   Future<bool> onFormSubmit() async{
     _toucheAll();
     if(!state.isFormValid) return false;
