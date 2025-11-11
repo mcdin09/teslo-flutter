@@ -1,6 +1,6 @@
 import 'package:teslo_shop/config/constants/environment.dart';
 import 'package:teslo_shop/features/auth/infrastructure/mappers/user_mapper.dart';
-import 'package:teslo_shop/features/products/domain/domaint.dart';
+import 'package:teslo_shop/features/products/domain/domain.dart';
 
 class ProductMapper{
   static jsonToEntity(Map<String,dynamic> json)=>Product(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:teslo_shop/features/products/presentation/providers/products_provider.dart';
 import 'package:teslo_shop/features/products/presentation/widgets/widgets.dart';
 import 'package:teslo_shop/features/shared/shared.dart';
@@ -28,7 +29,7 @@ class ProductsScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text('Nuevo producto'),
         icon: const Icon( Icons.add ),
-        onPressed: () {},
+        onPressed:()=> context.push('/product/new'),
       ),
     );
   }
@@ -49,8 +50,11 @@ class _ProductsViewState extends ConsumerState {
   @override
   void initState() {
     super.initState();
-    //TODO infinite scroll pending
-    // ref.read(productsProvider.notifier).loadNextPage();
+    scrollController.addListener((){
+      if((scrollController.position.pixels + 400) > scrollController.position.maxScrollExtent ){
+        ref.watch(productsProvider.notifier).loadNextPage();
+      }
+    });
   }
 
   @override
@@ -68,13 +72,17 @@ class _ProductsViewState extends ConsumerState {
       padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
       child: MasonryGridView.count(
         physics: BouncingScrollPhysics(),
+        controller: scrollController,
         crossAxisCount: 2,
         mainAxisSpacing: 20,
         crossAxisSpacing: 35,
         itemCount: productsState.products.length,
         itemBuilder: (context,index){
           final product = productsState.products[index];
-          return ProductCard(product: product);
+          return GestureDetector(
+            onTap: ()=> context.push('/product/${product.id}'),
+            child: ProductCard(product: product)
+            );
         }
       )
     );

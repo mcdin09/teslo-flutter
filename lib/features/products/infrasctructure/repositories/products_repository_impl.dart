@@ -1,4 +1,4 @@
-import 'package:teslo_shop/features/products/domain/domaint.dart';
+import 'package:teslo_shop/features/products/domain/domain.dart';
 
 class ProductsRepositoryImpl extends ProductsRepository {
 
@@ -12,8 +12,8 @@ class ProductsRepositoryImpl extends ProductsRepository {
   }
 
   @override
-  Future<Product> getProducts(String id) {
-    return datasource.getProducts(id);
+  Future<Product> getProductById(String id) {
+    return datasource.getProductById(id);
   }
 
   @override

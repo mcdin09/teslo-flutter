@@ -4,7 +4,7 @@ abstract class ProductsRepository {
 
   Future<List<Product>> getProductsByPage({int limit = 10, int offset = 0});
 
-  Future<Product> getProducts(String id);
+  Future<Product> getProductById(String id);
 
   Future<List<Product>> searchProductByTerm(String term);
 

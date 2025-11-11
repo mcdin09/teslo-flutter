@@ -33,6 +33,13 @@ final goRouterProvider = Provider((ref){
         path: '/',
         builder: (context, state) => const ProductsScreen(),
       ),
+      GoRoute(
+        path: '/product/:id',
+        builder: (context, state){
+          final productId = state.pathParameters['id'] ?? '';
+          return ProductScreen(productId: productId);
+        },
+      ),
     ],
     redirect: (context,state){
       print('path: ${state.matchedLocation}');
